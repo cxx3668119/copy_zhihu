@@ -3,28 +3,73 @@
     <img alt="Vue logo" src="./assets/logo.png" />
     <h1>{{ count }}</h1>
     <h1>{{ double }}</h1>
+    <ul>
+      <li v-for="number in numbers" :key="number">
+        <h1>{{ number }}</h1>
+      </li>
+    </ul>
+    <h1 v-if="loading">Loading...</h1>
+    <img v-if="loaded" :src="result.message" alt="">
+    <h1>{{ person.name }}</h1>
     <button @click="increase">👍+1</button>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, computed } from "vue";
-
+import { computed, reactive, toRefs, onMounted, onUpdated } from "vue";
+import useURLLoader from "./hooks/useURLLoaders";
+// 解决
+interface DataProps {
+  count: number;
+  double: number;
+  increase: () => void;
+  numbers: number[];
+  person: { name?: string };
+}
 export default {
   name: "App",
   components: {},
   setup() {
-    const count = ref(0);
-    const double = computed(() => {
-      return count.value * 2;
+    // const count = ref(0);
+    // const double = computed(() => {
+    //   return count.value * 2;
+    // });
+    // const increase = () => {
+    //   count.value++;
+    // };
+
+    // onMounted
+    onMounted(() => {
+      console.log("mounted");
     });
-    const increase = () => {
-      count.value++;
-    };
+    onUpdated(() => {
+      console.log("updated");
+    });
+    // onRenderTracked((e) => {
+    //   console.log(e);
+    // });
+    const data: DataProps = reactive({
+      // 类型推断错误
+      count: 0,
+      increase: () => {
+        data.count++;
+      },
+      double: computed(() => data.count * 2),
+      numbers: [0, 1, 2],
+      person: {},
+    });
+
+    const { result, loading, loaded } = useURLLoader(
+      "https://dog.ceo/api/breeds/image/random"
+    );
+    data.numbers[0] = 5;
+    data.person.name = "cxx";
+    const refData = toRefs(data);
     return {
-      count,
-      increase,
-      double,
+      ...refData,
+      loading,
+      loaded,
+      result,
     };
   },
 };
