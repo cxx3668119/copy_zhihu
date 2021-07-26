@@ -9,14 +9,14 @@
       </li>
     </ul>
     <h1 v-if="loading">Loading...</h1>
-    <img v-if="loaded" :src="result.message" alt="">
+    <img v-if="loaded" :src="result.message" alt="" />
     <h1>{{ person.name }}</h1>
     <button @click="increase">👍+1</button>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs, onMounted, onUpdated } from "vue";
+import { computed, reactive, toRefs, onMounted, onUpdated, watch } from "vue";
 import useURLLoader from "./hooks/useURLLoaders";
 // 解决
 interface DataProps {
@@ -26,6 +26,12 @@ interface DataProps {
   numbers: number[];
   person: { name?: string };
 }
+
+interface DogResult {
+  message: string;
+  status: string;
+}
+
 export default {
   name: "App",
   components: {},
@@ -59,9 +65,14 @@ export default {
       person: {},
     });
 
-    const { result, loading, loaded } = useURLLoader(
+    const { result, loading, loaded } = useURLLoader<DogResult>(
       "https://dog.ceo/api/breeds/image/random"
     );
+    watch(result, () => {
+      if (result.value) {
+        console.log("value", result.value.message);
+      }
+    });
     data.numbers[0] = 5;
     data.person.name = "cxx";
     const refData = toRefs(data);
