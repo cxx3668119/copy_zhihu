@@ -11,14 +11,28 @@ import ColumnList, { ColumnProps } from "./components/ColumnList.vue";
 const testData: ColumnProps[] = [
   {
     id: 1,
-    title: "cxx",
+    title: "cxx1",
     description: "cxx的练习demo",
     avatar:
       "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100",
   },
   {
     id: 2,
-    title: "cxx",
+    title: "cxx2",
+    description: "cxx的练习demo",
+    avatar:
+      "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100",
+  },
+  {
+    id: 3,
+    title: "cxx3",
+    description: "cxx的练习demo",
+    avatar:
+      "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100",
+  },
+  {
+    id: 4,
+    title: "cxx4",
     description: "cxx的练习demo",
     avatar:
       "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100",
@@ -38,12 +52,4 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
