@@ -20,8 +20,6 @@ const testData: ColumnProps[] = [
     id: 2,
     title: "cxx2",
     description: "cxx的练习demo",
-    avatar:
-      "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100",
   },
   {
     id: 3,

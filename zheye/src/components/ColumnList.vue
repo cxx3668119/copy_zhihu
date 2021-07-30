@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <li v-for="column in list" :key="column.id" class="col-4 mb-4">
+    <li v-for="column in columnList" :key="column.id" class="col-4 mb-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center">
           <img
@@ -18,12 +18,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 export interface ColumnProps {
   id: number;
   title: string;
-  avatar: string;
+  avatar?: string;
   description: string;
 }
 export default defineComponent({
@@ -35,8 +35,15 @@ export default defineComponent({
     },
   },
   setup(props) {
-    props;
-    return {};
+    const columnList = computed(() => {
+      return props.list.map((column) => {
+        if (!column.avatar) {
+          column.avatar = require("@/assets/column.jpg");
+        }
+        return column;
+      });
+    });
+    return { columnList };
   },
 });
 </script>
