@@ -12,10 +12,10 @@ import ColumnList, { ColumnProps } from "./components/ColumnList.vue";
 import GlobalHeader, { UserProps } from "./components/GlobalHeader.vue";
 
 const currentUser: UserProps = {
-  // isLogin: true,
-  // name: "cxx",
-  // id: 1,
-  isLogin: false,
+  isLogin: true,
+  name: "cxx",
+  id: 1,
+  // isLogin: false,
 };
 const testData: ColumnProps[] = [
   {
