@@ -1,50 +1,43 @@
 <template>
-  <div class="dropdown" ref="dropdownRef">
-    <a
-      @click="toggleOpen"
-      href="#"
-      class="btn btn-outline-light my-2 dropdown-toggle"
-      >{{ title }}</a
-    >
-    <ul
-      class="dropdown-menu"
-      :style="{ display: 'block' }"
-      v-if="isOpen"
-      aria-labelledby="dropdownMenuButton1"
-    >
-      <slot></slot>
-    </ul>
-  </div>
+<div class="dropdown" ref="dropdownRef">
+  <a href="#" class="btn btn-outline-light my-2 dropdown-toggle" @click.prevent="toggleOpen">
+    {{title}}
+  </a>
+  <ul class="dropdown-menu" :style="{display: 'block'}" v-if="isOpen">
+    <slot></slot>
+  </ul>
+</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
-import useClickOutside from "../hooks/useClickOutside";
-
+import { defineComponent, ref, watch } from 'vue'
+import useClickOutside from '../hooks/useClickOutside'
 export default defineComponent({
-  name: "Dropdown",
+  name: 'Dropdown',
   props: {
     title: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   setup() {
-    const isOpen = ref(false);
-    const dropdownRef = ref<null | HTMLElement>(null);
+    const isOpen = ref(false)
+    const dropdownRef = ref<null | HTMLElement>(null)
     const toggleOpen = () => {
-      isOpen.value = !isOpen.value;
-    };
-    const isClickOutside = useClickOutside(dropdownRef);
+      isOpen.value = !isOpen.value
+    }
+    const isClickOutside = useClickOutside(dropdownRef)
+
     watch(isClickOutside, () => {
       if (isOpen.value && isClickOutside.value) {
-        isOpen.value = false;
+        isOpen.value = false
       }
-    });
-    return { isOpen, toggleOpen, dropdownRef };
-  },
-});
+    })
+    return {
+      isOpen,
+      toggleOpen,
+      dropdownRef
+    }
+  }
+})
 </script>
-
-<style scoped>
-</style>

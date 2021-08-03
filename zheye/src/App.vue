@@ -1,64 +1,57 @@
 <template>
   <div class="container">
     <global-header :user="currentUser"></global-header>
-    <column-list :list="list"> </column-list>
+    <loader v-if="isLoading"></loader>
+    <router-view></router-view>
+    <footer class="text-center py-4 text-secondary bg-light mt-6">
+      <small>
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item">© 2020 者也专栏</li>
+          <li class="list-inline-item">课程</li>
+          <li class="list-inline-item">文档</li>
+          <li class="list-inline-item">联系</li>
+          <li class="list-inline-item">更多</li>
+        </ul>
+      </small>
+    </footer>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import "bootstrap/dist/css/bootstrap.min.css";
-import ColumnList, { ColumnProps } from "./components/ColumnList.vue";
-import GlobalHeader, { UserProps } from "./components/GlobalHeader.vue";
-
-const currentUser: UserProps = {
-  isLogin: true,
-  name: "cxx",
-  id: 1,
-  // isLogin: false,
-};
-const testData: ColumnProps[] = [
-  {
-    id: 1,
-    title: "cxx1",
-    description: "cxx的练习demo",
-    avatar:
-      "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100",
-  },
-  {
-    id: 2,
-    title: "cxx2",
-    description: "cxx的练习demo",
-  },
-  {
-    id: 3,
-    title: "cxx3",
-    description: "cxx的练习demo",
-    avatar:
-      "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100",
-  },
-  {
-    id: 4,
-    title: "cxx4",
-    description: "cxx的练习demo",
-    avatar:
-      "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100",
-  },
-];
+import { defineComponent, computed, onMounted, watch } from 'vue'
+import { useStore } from 'vuex'
+import axios from 'axios'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import GlobalHeader from './components/GlobalHeader.vue'
+import Loader from './components/Loader.vue'
+import createMessage from './components/createMessage'
+import { GlobalDataProps } from './store'
 export default defineComponent({
-  name: "App",
+  name: 'App',
   components: {
-    ColumnList,
     GlobalHeader,
+    Loader
   },
   setup() {
+    const store = useStore<GlobalDataProps>()
+    const currentUser = computed(() => store.state.user)
+    const isLoading = computed(() => store.state.loading)
+    const error = computed(() => store.state.error)
+    watch(() => error.value.status, () => {
+      const { status, message } = error.value
+      if (status && message) {
+        createMessage(message, 'error')
+      }
+    })
     return {
-      list: testData,
-      currentUser: currentUser,
-    };
-  },
-});
+      currentUser,
+      isLoading,
+      error
+    }
+  }
+})
 </script>
 
-<style lang="less">
+<style>
+
 </style>
